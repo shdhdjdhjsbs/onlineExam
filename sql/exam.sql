@@ -11,7 +11,7 @@
  Target Server Version : 50727
  File Encoding         : 65001
 
- Date: 06/09/2019 17:37:57
+ Date: 06/09/2024 17:37:57
 */
 
 SET NAMES utf8mb4;
@@ -58,20 +58,20 @@ CREATE TABLE `exam_manage`  (
   `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '考试类型',
   `tips` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '考生须知',
   PRIMARY KEY (`examCode`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 20190014 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '考试管理表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 20240014 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '考试管理表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of exam_manage
 -- ----------------------------
-INSERT INTO `exam_manage` VALUES (20190001, '2019年上期期末考试', '计算机网络', 1001, '2019-03-21', 120, '2018', '1', '计算机科学与技术', '软件工程学院', 100, '期末考试', '快乐千万条，学习第一条，平时不努力，考试两行泪。');
-INSERT INTO `exam_manage` VALUES (20190002, '2019年上期期末考试', '数据库理论', 1002, '2019-03-07', 90, '2018', '2', '网络工程', '软件工程学院', 100, '期末考试', '快乐千万条，学习第一条，平时不努力，考试两行泪。');
-INSERT INTO `exam_manage` VALUES (20190003, '2018年下期期末考试', '数据结构', 1003, '2019-02-27', 90, '2017', '1', '软件工程', '软件工程学院', 100, '期末考试', '快乐千万条，学习第一条，平时不努力，考试两行泪。');
-INSERT INTO `exam_manage` VALUES (20190005, '2018年上期期末考试', '计算机导论', 1004, '2019-03-14', 90, '2018', '1', '计算机科学与技术', '软件工程学院', 100, '期末考试', '快乐千万条，学习第一条，平时不努力，考试两行泪。');
-INSERT INTO `exam_manage` VALUES (20190006, '2017年上期期末考试', '软件工程', 1005, '2019-03-21', 120, '2018', '1', '计算机科学与技术', '软件工程学院', 100, '期末考试', '快乐千万条，学习第一条，平时不努力，考试两行泪。');
-INSERT INTO `exam_manage` VALUES (20190007, '2018年上期期末考试', '操作系统', 1006, '2019-03-13', 120, '2018', '2', '计算机科学与技术', '软件工程学院', 100, '期末考试', '快乐千万条，学习第一条，平时不努力，考试两行泪。');
-INSERT INTO `exam_manage` VALUES (20190008, '2018年下期期末考试', 'C语言', 1007, '2019-03-13', 120, '2018', '1', '信息工程', '软件工程学院', 100, '期末考试', '快乐千万条，学习第一条，平时不努力，考试两行泪。');
-INSERT INTO `exam_manage` VALUES (20190009, '2018年上期期末考试', '高等数学', 1008, '2019-03-07', 90, '2018', '1', '信息工程', '软件工程学院', 100, '期末考试', '快乐千万条，学习第一条，平时不努力，考试两行泪。');
-INSERT INTO `exam_manage` VALUES (20190013, '测试', '测试', 1009, '2019-04-24', 120, '2017', NULL, '测试', '测试', 100, '期末考试', '请不要带与考试无关的书籍。');
+INSERT INTO `exam_manage` VALUES (20240001, '2024年上期期末考试', '计算机网络', 1001, '2024-03-21', 120, '2023', '1', '计算机科学与技术', '软件工程学院', 100, '期末考试', '快乐千万条，学习第一条，平时不努力，考试两行泪。');
+INSERT INTO `exam_manage` VALUES (20240002, '2024年上期期末考试', '数据库理论', 1002, '2024-03-07', 90, '2023', '2', '网络工程', '软件工程学院', 100, '期末考试', '快乐千万条，学习第一条，平时不努力，考试两行泪。');
+INSERT INTO `exam_manage` VALUES (20240003, '2023年下期期末考试', '数据结构', 1003, '2024-02-27', 90, '2023', '1', '软件工程', '软件工程学院', 100, '期末考试', '快乐千万条，学习第一条，平时不努力，考试两行泪。');
+INSERT INTO `exam_manage` VALUES (20240005, '2023年上期期末考试', '计算机导论', 1004, '2024-03-14', 90, '2023', '1', '计算机科学与技术', '软件工程学院', 100, '期末考试', '快乐千万条，学习第一条，平时不努力，考试两行泪。');
+INSERT INTO `exam_manage` VALUES (20240006, '2023年上期期末考试', '软件工程', 1005, '2024-03-21', 120, '2023', '1', '计算机科学与技术', '软件工程学院', 100, '期末考试', '快乐千万条，学习第一条，平时不努力，考试两行泪。');
+INSERT INTO `exam_manage` VALUES (20240007, '2023年上期期末考试', '操作系统', 1006, '2024-03-13', 120, '2023', '2', '计算机科学与技术', '软件工程学院', 100, '期末考试', '快乐千万条，学习第一条，平时不努力，考试两行泪。');
+INSERT INTO `exam_manage` VALUES (20240008, '2023年下期期末考试', 'C语言', 1007, '2024-03-13', 120, '2023', '1', '信息工程', '软件工程学院', 100, '期末考试', '快乐千万条，学习第一条，平时不努力，考试两行泪。');
+INSERT INTO `exam_manage` VALUES (20240009, '2023年上期期末考试', '高等数学', 1008, '2024-03-07', 90, '2023', '1', '信息工程', '软件工程学院', 100, '期末考试', '快乐千万条，学习第一条，平时不努力，考试两行泪。');
+INSERT INTO `exam_manage` VALUES (20240013, '测试', '测试', 1009, '2024-04-24', 120, '2023', NULL, '测试', '测试', 100, '期末考试', '请不要带与考试无关的书籍。');
 
 -- ----------------------------
 -- Table structure for fill_question
@@ -169,16 +169,16 @@ CREATE TABLE `message`  (
 -- ----------------------------
 -- Records of message
 -- ----------------------------
-INSERT INTO `message` VALUES (2, '晚上加班,这感觉非常的nice', '今天是星期一的晚上,下班后回到宿舍继续写我的毕业设计,看着项目功能日渐丰满好开心哦,你们也要元气满满哦！', '2019-03-18');
-INSERT INTO `message` VALUES (15, '咸鱼', '我是一条咸鱼', '2019-03-18');
-INSERT INTO `message` VALUES (16, '今天中午吃什么', '今天去吃莲藕排骨汤吧，虽然也不好吃，但这里真的没什么东西可以吃了', '2019-03-18');
-INSERT INTO `message` VALUES (20, '这个网站不错', '博主大大好厉害，网页看着很清新呢，喜欢这样嘞风格。', '2019-03-18');
-INSERT INTO `message` VALUES (21, '男孩子', '哇，这么可爱，那肯定是男孩子呀。', '2019-03-18');
-INSERT INTO `message` VALUES (22, '好人', '你是个好人，可是我们不合适。', '2019-03-18');
-INSERT INTO `message` VALUES (25, '小乔', '花会枯萎，爱永不凋零，小乔要努力变强。', '2019-03-18');
-INSERT INTO `message` VALUES (26, '妲己', '妲己会一直爱主人，因为被设定成这样，来和妲己玩耍吧。', '2019-03-18');
-INSERT INTO `message` VALUES (27, '土味情话', '妈妈从小对我讲，不要早恋，遇到你以后，我决定不听妈妈的话了。', '2019-03-31');
-INSERT INTO `message` VALUES (35, '贝塔', '开坦克', '2019-09-05');
+INSERT INTO `message` VALUES (2, '晚上加班,这感觉非常的nice', '今天是星期一的晚上,下班后回到宿舍继续写我的毕业设计,看着项目功能日渐丰满好开心哦,你们也要元气满满哦！', '2024-03-18');
+INSERT INTO `message` VALUES (15, '咸鱼', '我是一条咸鱼', '2024-03-18');
+INSERT INTO `message` VALUES (16, '今天中午吃什么', '今天去吃莲藕排骨汤吧，虽然也不好吃，但这里真的没什么东西可以吃了', '2024-03-18');
+INSERT INTO `message` VALUES (20, '这个网站不错', '博主大大好厉害，网页看着很清新呢，喜欢这样嘞风格。', '2024-03-18');
+INSERT INTO `message` VALUES (21, '男孩子', '哇，这么可爱，那肯定是男孩子呀。', '2024-03-18');
+INSERT INTO `message` VALUES (22, '好人', '你是个好人，可是我们不合适。', '2024-03-18');
+INSERT INTO `message` VALUES (25, '小乔', '花会枯萎，爱永不凋零，小乔要努力变强。', '2024-03-18');
+INSERT INTO `message` VALUES (26, '妲己', '妲己会一直爱主人，因为被设定成这样，来和妲己玩耍吧。', '2024-03-18');
+INSERT INTO `message` VALUES (27, '土味情话', '妈妈从小对我讲，不要早恋，遇到你以后，我决定不听妈妈的话了。', '2024-03-31');
+INSERT INTO `message` VALUES (35, '贝塔', '开坦克', '2024-09-05');
 
 -- ----------------------------
 -- Table structure for multi_question
@@ -305,21 +305,21 @@ CREATE TABLE `replay`  (
 -- ----------------------------
 -- Records of replay
 -- ----------------------------
-INSERT INTO `replay` VALUES (26, 3, '好呀，我来了，你别跑！', '2019-03-18');
-INSERT INTO `replay` VALUES (22, 4, '心疼你2秒钟', '2019-03-18');
-INSERT INTO `replay` VALUES (25, 5, '我也要变强', '2019-03-19');
-INSERT INTO `replay` VALUES (25, 6, '俺也一样', '2019-03-19');
-INSERT INTO `replay` VALUES (21, 7, '既然这样，那就迎男而上吧', '2019-03-19');
-INSERT INTO `replay` VALUES (16, 8, '那条街确实没什么东西可以吃了。。。', '2019-03-19');
-INSERT INTO `replay` VALUES (15, 9, '咸鱼其实还可以吃，而你,emmmm', '2019-03-19');
-INSERT INTO `replay` VALUES (21, 11, '我不怕人多', '2019-03-19');
-INSERT INTO `replay` VALUES (20, 12, '是嘞，还行。', '2019-03-19');
-INSERT INTO `replay` VALUES (26, 13, '我也爱你ε=(´ο｀*)))唉', '2019-03-19');
-INSERT INTO `replay` VALUES (27, 14, '你这个坏孩子', '2019-03-31');
-INSERT INTO `replay` VALUES (33, 18, '是的，今天是周一。', '2019-04-14');
-INSERT INTO `replay` VALUES (34, 19, '1111', '2019-04-16');
-INSERT INTO `replay` VALUES (34, 20, '2222', '2019-04-16');
-INSERT INTO `replay` VALUES (35, 21, '666', '2019-09-05');
+INSERT INTO `replay` VALUES (26, 3, '好呀，我来了，你别跑！', '2024-03-18');
+INSERT INTO `replay` VALUES (22, 4, '心疼你2秒钟', '2024-03-18');
+INSERT INTO `replay` VALUES (25, 5, '我也要变强', '2024-03-19');
+INSERT INTO `replay` VALUES (25, 6, '俺也一样', '2024-03-19');
+INSERT INTO `replay` VALUES (21, 7, '既然这样，那就迎男而上吧', '2024-03-19');
+INSERT INTO `replay` VALUES (16, 8, '那条街确实没什么东西可以吃了。。。', '2024-03-19');
+INSERT INTO `replay` VALUES (15, 9, '咸鱼其实还可以吃，而你,emmmm', '2024-03-19');
+INSERT INTO `replay` VALUES (21, 11, '我不怕人多', '2024-03-19');
+INSERT INTO `replay` VALUES (20, 12, '是嘞，还行。', '2024-03-19');
+INSERT INTO `replay` VALUES (26, 13, '我也爱你ε=(´ο｀*)))唉', '2024-03-19');
+INSERT INTO `replay` VALUES (27, 14, '你这个坏孩子', '2024-03-31');
+INSERT INTO `replay` VALUES (33, 18, '是的，今天是周一。', '2024-04-14');
+INSERT INTO `replay` VALUES (34, 19, '1111', '2024-04-16');
+INSERT INTO `replay` VALUES (34, 20, '2222', '2024-04-16');
+INSERT INTO `replay` VALUES (35, 21, '666', '2024-09-05');
 
 -- ----------------------------
 -- Table structure for score
@@ -340,21 +340,21 @@ CREATE TABLE `score`  (
 -- ----------------------------
 -- Records of score
 -- ----------------------------
-INSERT INTO `score` VALUES (4, 20190001, 20154084, '计算机网络', NULL, 70, NULL, '2019-04-03');
-INSERT INTO `score` VALUES (14, 20190002, 20154084, '数据库理论', NULL, 78, NULL, '2019-04-20');
-INSERT INTO `score` VALUES (15, 20190002, 20154084, '数据库理论', NULL, 80, NULL, '2019-04-20');
-INSERT INTO `score` VALUES (16, 20190002, 20154084, '数据库理论', NULL, 83, NULL, '2019-04-20');
-INSERT INTO `score` VALUES (17, 20190001, 20154001, '计算机网络', NULL, 74, NULL, '2019-04-13');
-INSERT INTO `score` VALUES (18, 20190001, 20154001, '计算机网络', NULL, 70, NULL, '2019-04-10');
-INSERT INTO `score` VALUES (19, 20190001, 20155003, '计算机网络', NULL, 86, NULL, '2019-04-14');
-INSERT INTO `score` VALUES (20, 20190001, 20155007, '计算机网络', NULL, 90, NULL, '2019-04-11');
-INSERT INTO `score` VALUES (21, 20190001, 20155007, '计算机网络', NULL, 92, NULL, '2019-04-12');
-INSERT INTO `score` VALUES (22, 20190001, 20155008, '计算机网络', NULL, 80, NULL, '2019-04-12');
-INSERT INTO `score` VALUES (23, 20190001, 20155003, '计算机网络', NULL, 90, NULL, '2019-04-13');
-INSERT INTO `score` VALUES (24, 20190001, 20155008, '计算机网络', NULL, 88, NULL, '2019-04-14');
-INSERT INTO `score` VALUES (27, 20190001, 20154084, '计算机网络', NULL, 80, NULL, '2019-04-25');
-INSERT INTO `score` VALUES (30, 20190001, 20154084, '计算机网络', NULL, 0, NULL, '2019-04-29');
-INSERT INTO `score` VALUES (31, 20190001, 20154084, '计算机网络', NULL, 0, NULL, '2019-09-06');
+INSERT INTO `score` VALUES (4, 20240001, 20154084, '计算机网络', NULL, 70, NULL, '2024-04-03');
+INSERT INTO `score` VALUES (14, 20240002, 20154084, '数据库理论', NULL, 78, NULL, '2024-04-20');
+INSERT INTO `score` VALUES (15, 20240002, 20154084, '数据库理论', NULL, 80, NULL, '2024-04-20');
+INSERT INTO `score` VALUES (16, 20240002, 20154084, '数据库理论', NULL, 83, NULL, '2024-04-20');
+INSERT INTO `score` VALUES (17, 20240001, 20154001, '计算机网络', NULL, 74, NULL, '2024-04-13');
+INSERT INTO `score` VALUES (18, 20240001, 20154001, '计算机网络', NULL, 70, NULL, '2024-04-10');
+INSERT INTO `score` VALUES (19, 20240001, 20155003, '计算机网络', NULL, 86, NULL, '2024-04-14');
+INSERT INTO `score` VALUES (20, 20240001, 20155007, '计算机网络', NULL, 90, NULL, '2024-04-11');
+INSERT INTO `score` VALUES (21, 20240001, 20155007, '计算机网络', NULL, 92, NULL, '2024-04-12');
+INSERT INTO `score` VALUES (22, 20240001, 20155008, '计算机网络', NULL, 80, NULL, '2024-04-12');
+INSERT INTO `score` VALUES (23, 20240001, 20155003, '计算机网络', NULL, 90, NULL, '2024-04-13');
+INSERT INTO `score` VALUES (24, 20240001, 20155008, '计算机网络', NULL, 88, NULL, '2024-04-14');
+INSERT INTO `score` VALUES (27, 20240001, 20154084, '计算机网络', NULL, 80, NULL, '2024-04-25');
+INSERT INTO `score` VALUES (30, 20240001, 20154084, '计算机网络', NULL, 0, NULL, '2024-04-29');
+INSERT INTO `score` VALUES (31, 20240001, 20154084, '计算机网络', NULL, 0, NULL, '2024-09-06');
 
 -- ----------------------------
 -- Table structure for student

@@ -1,9 +1,9 @@
 import request from '@/utils/request'
 
-//获取所以考试数据
+//获取所有考试数据
 export const getExamListService = () => request.get('/exams')
 
-// 获取分页考试数据
+// 获取分页课程考试数据
 export const getPageExamListService = (currentPage, pageSize) => request.get(`/exams/${currentPage}/${pageSize}`)
 
 // 通过examCode获取当个科目数据

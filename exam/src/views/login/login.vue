@@ -30,7 +30,13 @@ const login = async () => {
     if (res.data.code === 200) {
         userStore.setUser(res.data.data);
         ElMessage.success('登陆成功')
-        router.push('/students')
+        console.log(res.data.data.role);
+        if (res.data.data.role == 1) {
+            router.push('/teacher/examQuery')
+        }
+        else if(res.data.data.role == 2) {
+            router.push('/students')
+        }
     } else {
         ElMessage.success('登陆失败，请检查账号或密码')
     }
@@ -60,8 +66,8 @@ const login = async () => {
         </el-row> 
         <div class="tip center">
             <div>Tips：</div>
-            <!-- <div>管理员账号：9527</div>
-            <div>教师账号：20081001</div> -->
+            <!-- <div>管理员账号：9527</div> -->
+            <div>教师账号：20081001</div>
             <div>学生账号：20154084</div>
             <div>密码都是：123456 </div>
             <div>真正有题目只有计算机网络</div>
@@ -113,7 +119,7 @@ body {
     margin-top: 25px;
     height: 50px;
     width: 100%;
-    background-color: rgb(64, 158, 255);
+    background-color: rgb(53, 171, 255);
     border-radius: 8px;
     color: white;
 }

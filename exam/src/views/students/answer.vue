@@ -42,7 +42,7 @@ let timer = setInterval(() => {
         })
     }
     else if (Subjectdata.value.totalTime == 0) {
-        ElMessage('考试时间已到,强制交卷。')
+        ElMessage.warning('考试时间已到,强制交卷。')
         subExamSevice()
         clearInterval(timer)
     }
@@ -203,7 +203,7 @@ const subExamSevice = async () => {
             subjectCode
         }})
         }
-         ElMessage(res.data.message)
+         ElMessage.error(res.data.message)
 }
 
 const startTime =ref('')

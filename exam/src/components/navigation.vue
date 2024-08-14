@@ -1,14 +1,6 @@
 <script setup>
+import userAvatar from './userAvatar.vue'
 import router from '@/router';
-import { ref } from 'vue'
-import { useUserStore } from '@/stores/index.js'
-const flag = ref(false)
-
-const userStore = useUserStore();
-const reset = () => {
-    router.push('/')
-    userStore.resetUser()
-}
 </script>
 <template>
     <div class="navBox">
@@ -20,14 +12,7 @@ const reset = () => {
             <div class="title2 center" @click="router.push('/msgBoard')">给我留言</div>
         </div>
         <div class="titleBox2">
-            <div @mouseenter="flag = !flag" @mouseleave="flag = !flag" class="title2 center"
-                style="width: 25%;position: relative;"><el-icon style="font-size: 25px;">
-                    <Avatar />
-                </el-icon>大咸鱼<div v-if="flag" class="user center">
-                    <div @click="router.push('/manager')">修改密码</div>
-                    <div @click="reset">退出</div>
-                </div>
-            </div>
+            <userAvatar></userAvatar>
         </div>
     </div>
 </template>
@@ -92,29 +77,4 @@ body {
     transition: 1s;
 }
 
-.user {
-    height: 12vh;
-    width: 100%;
-    background-color: white;
-    color: black;
-    position: absolute;
-    top: 8vh;
-    /* left: 0; */
-    flex-wrap: wrap;
-}
-
-.user div {
-    height: 6vh;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.user div:hover {
-    background-color: rgb(5, 151, 255);
-    color: white;
-    transition: 0.7s;
-    width: 100%;
-}
 </style>
