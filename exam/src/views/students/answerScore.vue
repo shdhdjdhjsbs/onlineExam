@@ -5,8 +5,8 @@ import { getSubjectService, getStudentDtlService } from '@/api/students';
 import { useUserStore } from '@/stores/index.js';
 const route = useRoute();
 const userStore = useUserStore();
-// const totalScore = route.query.totalScore
-const totalScore = 90
+const totalScore = route.query.totalScore
+// const totalScore = 90
 const startTime = route.query.startTime
 const endTime = route.query.endTime
 const subjectCode = route.query.subjectCode

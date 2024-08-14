@@ -195,6 +195,7 @@ const getCurrentDate = () => {
 const subExamSevice = async () => {
     const totalScore1 = totalScore()
         const res = await subExamScoreService(subjectCode,userStore.studentId,Subjectdata.value.source,totalScore1,getCurrentDate())
+        console.log(totalScore1);
         if (res.data.code === 200) {
             router.push({path:'/answerScore',query:{
             totalScore:totalScore1,
