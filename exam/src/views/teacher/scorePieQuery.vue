@@ -1,20 +1,44 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref, computed } from 'vue';
 import { getPageExamListService } from '@/api/students';
 import { Search } from '@element-plus/icons-vue'
 import router from '@/router';
-const pagingData = ref([])
-const PagingData = computed(() => pagingData.value?.data?.data || [])
+
+interface Exam {
+  source: string;
+  description: string;
+  institute: string;
+  major: string;
+  grade: string;
+  examDate: string;
+  totalTime: number;
+  totalScore: number;
+  type: string;
+  tips: string;
+  examCode: number;
+}
+interface PagingData {
+  data: {
+    data: {
+      records: Exam[];
+      total: number;
+    };
+    code: number;
+  };
+}
+
+const pagingData = ref<PagingData | null>(null)
+const PagingData = computed(() => pagingData.value?.data.data || { records: [], total: 0 })
 const params = ref({
     currentPage: 1,
     pageSize: 8,
     total: 0
 })
-const handleSizeChange = (e) => {
+const handleSizeChange = (e:number) => {
     params.value.pageSize = e
     onChangePage()
 }
-const handleCurrentChange = (e) => {
+const handleCurrentChange = (e:number) => {
     params.value.currentPage = e
     onChangePage()
 }
@@ -24,7 +48,7 @@ const onChangePage = async () => {
     console.log(PagingData.value, params.value.total);
 }
 
-const searchSubject = (row) => {
+const searchSubject = (row:Exam) => {
     router.push({path: '/teacher/subjectScore', query:{examCode: row.examCode, source: row.source}})
 }
 

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { getSubjectAllScoreService } from '@/api/teacher'
@@ -32,7 +32,7 @@ const option = ref({
       name: 'Access From',
       type: 'pie',
       radius: '50%',
-      data: [],
+      data: [] as { name: string; value: number }[],
       emphasis: {
         itemStyle: {
           shadowBlur: 10,
@@ -44,14 +44,16 @@ const option = ref({
   ]
 })
 const initChart = () => {
-    // 初始化图表实例
+  if (echart.value) {
+        // 初始化图表实例
     const chart = echarts.init(echart.value);
-    option.value
     // 设置图表选项
     chart.setOption(option.value);
 
     // 监听窗口大小变化，调整图表大小
-    window.addEventListener('resize', chart.resize);
+    const resizeHandler = () => chart.resize();
+    window.addEventListener('resize', resizeHandler);
+  }
 };
 
 const route = useRoute()
@@ -59,21 +61,21 @@ const examCode = ref('')
 const source = ref('')
 // // 在组件挂载时初始化图表
 onMounted(async () => {
-    examCode.value = route.query.examCode
-    source.value = route.query.source
+    examCode.value = route.query.examCode as string
+    source.value = route.query.source as string
     option.value.title.text = source.value + '分数分段图'
     const res = await getSubjectAllScoreService(examCode.value)
     const resData = res.data.data
     console.log(res);
     // 分类分数
-  const scoreRanges = {
+  const scoreRanges:ScoreRanges = {
     '60以下': 0,
     '60-80': 0,
     '80-90': 0,
     '90以上': 0
   };
 
-  resData.forEach(item => {
+  resData.forEach((item: { etScore: number }) => {
     const score = item.etScore;
     if (score < 60) {
       scoreRanges['60以下']++;
@@ -85,6 +87,9 @@ onMounted(async () => {
       scoreRanges['90以上']++;
     }
   });
+  type ScoreRanges = {
+  [key: string]: number;
+};
 
   // 更新图表数据
   option.value.series[0].data = Object.keys(scoreRanges).map(key => ({

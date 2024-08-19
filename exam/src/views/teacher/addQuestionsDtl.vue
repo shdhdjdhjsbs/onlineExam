@@ -1,8 +1,46 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { addSelectQuestionsService, addFillQuestionsService, addJudgeQuestionsService } from '@/api/teacher'
 import { useRoute } from 'vue-router';
 import { ElMessage } from 'element-plus';
+
+interface SelectQuestion {
+  subject: string;
+  level: string;
+  rightAnswer: string;
+  section: string;
+  question: string;
+  analysis: string;
+  answerA: string;
+  answerB: string;
+  answerC: string;
+  answerD: string;
+  questionId: number;
+  content: string;
+}
+
+interface FillQuestion {
+  subject: string;
+  level: string;
+  answer: string;
+  section: string;
+  question: string;
+  analysis: string;
+  questionId: number;
+  content: string;
+}
+
+interface JudgeQuestion {
+  subject: string;
+  level: string;
+  answer: string;
+  section: string;
+  question: string;
+  analysis: string;
+  questionId: number;
+  content: string;
+}
+
 const typevalue = ref('选择题')
 const selectQue = [
   {
@@ -73,7 +111,7 @@ const rights = [ //正确答案
   },
 ]
 
-const postSelect = ref({ //选择题提交内容
+const postSelect = ref<SelectQuestion>({ //选择题提交内容
   subject: '', //试卷名称
   level: '', //难度等级选中值 
   rightAnswer: '', //正确答案选中值
@@ -84,28 +122,34 @@ const postSelect = ref({ //选择题提交内容
   answerB: '',
   answerC: '',
   answerD: '',
+  questionId: 0,
+  content: ''
 })
-const postFill = ref({ //填空题提交内容
+const postFill = ref<FillQuestion>({ //填空题提交内容
   subject: '', //试卷名称
   level: '', //难度等级选中值 
   answer: '', //正确答案
   section: '', //对应章节
   question: '', //题目
   analysis: '', //解析
+  questionId: 0,
+  content: ''
 })
-const postJudge = ref({ //判断题提交内容
+const postJudge = ref<JudgeQuestion>({ //判断题提交内容
   subject: '', //试卷名称
   level: '', //难度等级选中值 
   answer: '', //正确答案
   section: '', //对应章节
   question: '', //题目
   analysis: '', //解析
+  questionId: 0,
+  content: ''
 })
 const route = useRoute()
 onMounted(() => {
-  postSelect.value.subject = route.query.subject //获取试卷名称
-  postFill.value.subject = route.query.subject
-  postJudge.value.subject = route.query.subject
+  postSelect.value.subject = route.query.subject as string //获取试卷名称
+  postFill.value.subject = route.query.subject as string
+  postJudge.value.subject = route.query.subject as string
 })
 
 const subSelect = async () => {
@@ -113,6 +157,7 @@ const subSelect = async () => {
   const res = await addSelectQuestionsService(postSelect.value)
   if (res.data.code == 200) {
     postSelect.value = {
+      questionId: 0,
       subject: '',
       level: '',
       rightAnswer: '',
@@ -123,6 +168,7 @@ const subSelect = async () => {
       answerB: '',
       answerC: '',
       answerD: '',
+      content: ''
     }
     return ElMessage.success('选择题添加成功')
   }
@@ -132,13 +178,15 @@ const subFill = async () => {
   const res = await addFillQuestionsService(postFill.value)
   console.log(res);
   if (res.data.code == 200) {
-    postJudge = {
+    postJudge.value = {
       subject: '',
       level: '',
       answer: '',
       section: '',
       question: '',
       analysis: '',
+      questionId: 0,
+      content: ''
     }
     return ElMessage.success('填空题添加成功')
   }
@@ -147,13 +195,15 @@ const subFill = async () => {
 const subJudge = async () => {
   const res = await addJudgeQuestionsService(postJudge.value)
   if (res.data.code == 200) {
-    postJudge = {
+    postJudge.value = {
       subject: '',
       level: '',
       answer: '',
       section: '',
       question: '',
       analysis: '',
+      questionId: 0,
+      content: ''
     }
     return ElMessage.success('判断题添加成功')
   }

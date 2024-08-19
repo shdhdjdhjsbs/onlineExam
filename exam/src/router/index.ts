@@ -1,13 +1,12 @@
+import { createRouter, createWebHistory } from 'vue-router'
 import Login from '@/views/login/login.vue'
+import Students from '@/views/students/index.vue'
+import MyScore from '@/views/students/myScore.vue'
+import MsgBoard from '@/views/students/msgBoard.vue'
+import Manager from '@/views/students/manager.vue'
+import ExamMsg from '@/views/students/examMsg.vue'
 import Answer from '@/views/students/answer.vue'
 import AnswerScore from '@/views/students/answerScore.vue'
-import ExamMsg from '@/views/students/examMsg.vue'
-import Students from '@/views/students/index.vue'
-import Manager from '@/views/students/manager.vue'
-import MsgBoard from '@/views/students/msgBoard.vue'
-import MyScore from '@/views/students/myScore.vue'
-import { useUserStore } from '@/stores/index.js'
-import { createRouter, createWebHistory } from 'vue-router'
 import Layout from '@/views/layout/layout.vue'
 import ExamQuery from '@/views/teacher/examQuery.vue'
 import QuestionsQuery from '@/views/teacher/questionsQuery.vue'
@@ -19,16 +18,16 @@ import TeacherManage from '@/views/teacher/teacherManage.vue'
 import AddQuestionsDtl from '@/views/teacher/addQuestionsDtl.vue'
 import Column from '@/views/echarts/column.vue'
 import Pie from '@/views/echarts/pie.vue'
-
+import { useUserStore } from '@/stores/index.js'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     { path: '/login', component: Login },
     { path: '/students', component: Students },
-    { path: '/examMsg', component: ExamMsg },
     { path: '/myScore', component: MyScore },
     { path: '/msgBoard', component: MsgBoard },
     { path: '/manager', component: Manager },
+    { path: '/examMsg', component: ExamMsg },
     { path: '/answer', component: Answer },
     { path: '/answerScore', component: AnswerScore },
     {

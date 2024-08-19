@@ -1,33 +1,57 @@
-<script setup>
-import { onMounted, ref } from 'vue'
+<script setup lang="ts">
+import { onMounted, ref } from 'vue';
 import { getExamListService, getPageExamListService } from '@/api/students';
 import router from '@/router';
-const state = ref('')
 
-const links = ref([])
-// 所以科目数据
-const examData = ref([])
-//当前页面数据
-const examNewList = ref([])
-const querySearchAsync = (queryString, cb) => {
+interface ExamItem {
+  source: string;
+  description: string;
+  examDate: string;
+  totalTime: number;
+  totalScore: number;
+  examCode: string;
+  paperId: string;
+  term: string;
+}
+
+interface Params {
+  currentPage: number;
+  pageSize: number;
+  total: number;
+}
+
+const state = ref<string>('');
+
+const links = ref<{ value: string }[]>([]);
+// 所有科目数据
+const examData = ref<ExamItem[]>([]);
+// 当前页面数据
+const examNewList = ref<ExamItem[]>([]);
+
+let timeout: ReturnType<typeof setTimeout>;
+
+const querySearchAsync = (queryString: string, cb: (results: { value: string }[]) => void) => {
   const results = queryString
     ? links.value.filter(createFilter(queryString))
-    : links.value
+    : links.value;
 
-  clearTimeout(timeout)
+  clearTimeout(timeout);
   timeout = setTimeout(() => cb(results), 3000 * Math.random());
-}
-const createFilter = (queryString) => (exam) =>
+};
+
+const createFilter = (queryString: string) => (exam: { value: string }) =>
   exam.value.toLowerCase().includes(queryString.toLowerCase());
-const handleSelect = (item) => {
-  //根据总数据筛选选择的科目
+
+const handleSelect = (item: { value: string }) => {
+  // 根据总数据筛选选择的科目
   const selectedExam = examData.value.find(exam => exam.source === item.value);
   if (selectedExam) {
     // 替换当前页面渲染的数据
     examNewList.value = [selectedExam];
   }
-}
-//搜索按钮
+};
+
+// 搜索按钮
 const search = async () => {
   if (state.value.trim() === '') {
     // 为空时默认显示前四个
@@ -39,51 +63,58 @@ const search = async () => {
     );
     examNewList.value = filteredExams;
   }
-}
-const params = ref({
+};
+
+const params = ref<Params>({
   currentPage: 1,
   pageSize: 4,
-  total: 1
-})
+  total: 1,
+});
+
 // 分页
 const onChangePage = async () => {
-  const getexamNewList = await getPageExamListService(params.value.currentPage, params.value.pageSize)
-  examNewList.value = getexamNewList.data.data.records
-}
+  const getexamNewList = await getPageExamListService(params.value.currentPage, params.value.pageSize);
+  examNewList.value = getexamNewList.data.data.records as ExamItem[];
+};
 
-const handleSizeChange = (e) => {
-  params.pageSize = e
-  onChangePage()
-}
-const handleCurrentChange = (e) => {
-  params.currentPage = e
-  onChangePage()
-}
+const handleSizeChange = (e: number) => {
+  params.value.pageSize = e;
+  onChangePage();
+};
+
+const handleCurrentChange = (e: number) => {
+  params.value.currentPage = e;
+  onChangePage();
+};
+
 // 获取全部科目数据(分页有需要)
 const getAllExamList = async () => {
-  const ExamList = await getExamListService()
-  params.value.total = ExamList.data.data.length
-  ExamList.data.data.forEach(item => {
+  const ExamList = await getExamListService();
+  console.log(ExamList);
+
+  params.value.total = ExamList.data.data.length;
+  ExamList.data.data.forEach((item: ExamItem) => {
     links.value.push({ value: item.source });
   });
-  examData.value = ExamList.data.data
-}
+  examData.value = ExamList.data.data;
+};
 
 // 科目跳转
-const toExamMsg = (item) => {
-  console.log(item.examCode,item.paperId);
+const toExamMsg = (item: ExamItem) => {
+  console.log(item.examCode, item.paperId);
   router.push({
-    path: '/examMsg', query: {
+    path: '/examMsg',
+    query: {
       subjectCode: item.examCode,
-      paperId: item.paperId
-    }
-  })
-}
+      paperId: item.paperId,
+    },
+  });
+};
 
 onMounted(async () => {
-  await getAllExamList()
-  await onChangePage()
-})
+  await getAllExamList();
+  await onChangePage();
+});
 </script>
 <template>
   <keep-alive>
@@ -100,7 +131,7 @@ onMounted(async () => {
         </div>
       </div>
       <div class="examMain">
-        <div class="subject" @click="toExamMsg(item)" v-for="(item, index) in examNewList" :key="item.term">
+        <div class="subject" @click="toExamMsg(item)" v-for="(item, index) in examNewList" :key="item.source">
           <div class="subName">{{ item.source }}</div>
           <div class="description">{{ item.source }}-{{ item.description }}</div>
           <div class="detail">

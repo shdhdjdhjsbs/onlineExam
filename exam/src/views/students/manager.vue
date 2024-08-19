@@ -1,16 +1,21 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import router from '@/router';
-import { useUserStore } from '@/stores/index.js'
+import { useUserStore } from '@/stores/index'
 import { updateStudentPWDService } from '@/api/students';
-const formModel = ref({
+import { ElMessage, ElForm } from 'element-plus';
+interface FormModel {
+    password: string;
+    confirm: string;
+}
+const formModel = ref<FormModel>({
     password: '',
     confirm: ''
 });
 
-const form = ref()
+const form = ref<InstanceType<typeof ElForm> | null>(null)
 
-const validatePass = (rule, value, callback) => {
+const validatePass = (rule: any, value: string, callback: (error?: Error) => void) => {
     if (value === '') {
         callback(new Error('请再次输入密码'))
     } else if (value !== formModel.value.password) {
@@ -37,11 +42,12 @@ const reset = () => {
 }
 //提交更改密码
 const sub = async () => {
-  await form.value.validate()
-  const res = await updateStudentPWDService(formModel.value.password,userStore.studentId)
-  if (res.data.code === 200) {
-      ElMessage.success('修改成功')
-      router.push('/students')
+    if (!form.value) return
+    await form.value.validate()
+    const res = await updateStudentPWDService(formModel.value.password, userStore.studentId)
+    if (res.data.code === 200) {
+        ElMessage.success('修改成功')
+        router.push('/students')
     } else {
         ElMessage.success('修改密码失败，请检查账号或密码')
     }
@@ -54,8 +60,8 @@ onMounted(() => {
 </script>
 <template>
     <keep-alive>
-    <navigation></navigation>
-  </keep-alive>
+        <navigation></navigation>
+    </keep-alive>
     <div class="container center">
         <el-row class="box center">
             <el-col :lg="8" :xs="16" :md="10" :span="10">
@@ -96,7 +102,7 @@ body {
 .container {
     height: 100vh;
     flex-direction: column;
-    background-color: rgb(238,238,238);
+    background-color: rgb(238, 238, 238);
     overflow: hidden;
 }
 

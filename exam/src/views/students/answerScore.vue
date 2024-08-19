@@ -1,26 +1,55 @@
-<script setup>
+<script setup lang="ts">
 import { useRoute } from 'vue-router';
 import { onMounted, ref, computed } from 'vue'
 import { getSubjectService, getStudentDtlService } from '@/api/students';
-import { useUserStore } from '@/stores/index.js';
+import { useUserStore } from '@/stores/index';
 const route = useRoute();
 const userStore = useUserStore();
-const totalScore = route.query.totalScore
+const totalScore = Number(route.query.totalScore)
 // const totalScore = 90
-const startTime = route.query.startTime
-const endTime = route.query.endTime
-const subjectCode = route.query.subjectCode
+const startTime = route.query.startTime as string
+const endTime = route.query.endTime as string
+const subjectCode = route.query.subjectCode as string
 const isTransition = ref(false)
-const subjetData = ref({});
+interface SubjectData {
+    data: {
+        data: {
+            source: string;
+            totalScore: number;
+            totalTime: number;
+        };
+    };
+}
+const subjetData = ref<SubjectData | null>(null);
 // 使用 computed 解构出最内层的 data
-const Subjectdata = computed(() => subjetData.value?.data?.data || []);
-const userData = ref({});
-const UserData = computed(() => userData.value?.data?.data || []);
+// const Subjectdata = computed(() => subjetData.value?.data?.data || []);
+const Subjectdata = computed(() => {
+    const data = subjetData.value?.data?.data;
+    if (data) {
+        return data;
+    }
+    return { source: '', totalScore: 0, totalTime: 0 };
+});
+interface UserData {
+    data: {
+        data: {
+            studentName: string;
+        };
+    };
+}
+const userData = ref<UserData | null>(null);
+const UserData = computed(() => {
+    const data = userData.value?.data?.data;
+    if (data) {
+        return data;
+    }
+    return { studentName: '' };
+});
 onMounted(async () => {
     let timer = setTimeout(() => {
         isTransition.value = true
         clearInterval(timer)
-      },1000)
+    }, 1000)
     subjetData.value = await getSubjectService(subjectCode)
     userData.value = await getStudentDtlService(userStore.studentId)
     console.log(Subjectdata.value, UserData.value);
@@ -36,12 +65,16 @@ onMounted(async () => {
         <div class="main">
             <div class="Top center" style="font-size: 2rem;color: rgb(5, 151, 255);">姓名：{{ UserData.studentName }}</div>
             <div class="body">
-                <div class="center meme" :class="{'meme1': totalScore < 60,'meme3': totalScore>=60 && totalScore < 80,'meme5': totalScore>=80 && totalScore <= 100}" style="height: 25vh;width: 25vh;background-size: cover; background-position: center;"></div>
+                <div class="center meme"
+                    :class="{ 'meme1': totalScore < 60, 'meme3': totalScore >= 60 && totalScore < 80, 'meme5': totalScore >= 80 && totalScore <= 100 }"
+                    style="height: 25vh;width: 25vh;background-size: cover; background-position: center;"></div>
                 <div class="number" :class="{ 'border': isTransition }">
                     <div>{{ totalScore }}</div>
                     <div>分数</div>
                 </div>
-                <div class="center meme" :class="{'meme2': totalScore < 60,'meme4': totalScore>=60 && totalScore < 80,'meme6': totalScore>=80 && totalScore <= 100}" style="height: 25vh;width: 25vh;background-size: cover; background-position: center;"></div>
+                <div class="center meme"
+                    :class="{ 'meme2': totalScore < 60, 'meme4': totalScore >= 60 && totalScore < 80, 'meme6': totalScore >= 80 && totalScore <= 100 }"
+                    style="height: 25vh;width: 25vh;background-size: cover; background-position: center;"></div>
             </div>
             <div class="bottom">
                 <div class="start">
@@ -103,55 +136,66 @@ onMounted(async () => {
     justify-content: space-around;
     align-items: center;
 }
+
 .number {
-      opacity: 0;
-      border: 6px solid #fff;
-      transform: rotate(0deg);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      width: 25vh;
-      height: 25vh;
-      border-radius: 50%;
-      transition: all 1s ease;
+    opacity: 0;
+    border: 6px solid #fff;
+    transform: rotate(0deg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 25vh;
+    height: 25vh;
+    border-radius: 50%;
+    transition: all 1s ease;
 }
+
 .border {
-  border: 6px solid #36aafd !important;
-  transition: all 2s ease;
-  width: 160px !important;
-  height: 160px !important;
-  transform: rotate(360deg) !important;
-  opacity: 1 !important;
+    border: 6px solid #36aafd !important;
+    transition: all 2s ease;
+    width: 160px !important;
+    height: 160px !important;
+    transform: rotate(360deg) !important;
+    opacity: 1 !important;
 }
+
 .meme {
     animation: fadeInZoom 1s ease-out forwards;
 }
+
 @keyframes fadeInZoom {
     0% {
         opacity: 0;
         transform: scale(0.5);
     }
+
     100% {
         opacity: 1;
         transform: scale(1);
     }
 }
+
 .meme1 {
     background-image: url(../../assets/loseFace.jpeg);
 }
+
 .meme2 {
     background-image: url(../../assets/accept.jpeg);
 }
+
 .meme3 {
     background-image: url(../../assets/praise.jpeg);
 }
+
 .meme4 {
     background-image: url(../../assets/emmm.jpeg);
 }
+
 .meme5 {
     background-image: url(../../assets/yyds.jpeg);
 }
+
 .meme6 {
     background-image: url(../../assets/nb.jpeg);
 }
@@ -162,6 +206,7 @@ onMounted(async () => {
     align-items: center;
     height: 7vh;
 }
+
 .start1 {
     width: 30vh;
     height: 7vh;

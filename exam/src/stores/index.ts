@@ -5,5 +5,5 @@ const pinia = createPinia()
 pinia.use(persist)
 
 export default pinia
-import { useUserStore } from './modules/user.js'
+import { useUserStore } from './modules/user'
 export {useUserStore}

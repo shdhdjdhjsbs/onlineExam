@@ -1,7 +1,8 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref} from 'vue';
 import { deleteTeacherInfoService, getPagingTeacherService } from '@/api/teacher';
 import { Edit, Delete } from '@element-plus/icons-vue'
+import { ElMessageBox } from 'element-plus';
 const examNewData = ref([])
 const dialog = ref();
 
@@ -10,12 +11,12 @@ const params = ref({
   pageSize: 4,
   total: 1
 })
-const handleSizeChange = (e) => {
-  params.pageSize = e
+const handleSizeChange = (e:number) => {
+  params.value.pageSize = e
   onChangePage()
 }
-const handleCurrentChange = (e) => {
-  params.currentPage = e
+const handleCurrentChange = (e:number) => {
+  params.value.currentPage = e
   onChangePage()
 }
 const onChangePage = async () => {
@@ -24,17 +25,28 @@ const onChangePage = async () => {
   params.value.total = getexamNewList.data.data.total
   examNewData.value = getexamNewList.data.data.records
 }
+interface Teacher {
+  teacherId: number;
+  teacherName: string;
+  institute: string;
+  sex: string;
+  tel: string;
+  email: string;
+  cardId: string;
+  type: string;
+}
+
 //增加
 const addExam = () => {
   //调用teacherEditAdd的弹窗暴露的方法打开弹窗
   dialog.value.open()
 }
 //编辑
-const onEditExam = (row) => {
+const onEditExam = (row:Teacher) => {
   dialog.value.open(row)
   console.log(row);
 }
-const onDelExam = async (row) => {
+const onDelExam = async (row:Teacher) => {
   await ElMessageBox.confirm('你确认删除该考试分类吗？', '温馨提示', {
     type: 'warning',
     confirmButtonText: '确认',

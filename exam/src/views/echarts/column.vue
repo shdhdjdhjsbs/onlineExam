@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { getStudentScoreService } from '@/api/students';
@@ -18,37 +18,44 @@ const echart = ref(null);
 const option = ref({
     xAxis: {
         type: 'category',
-        data: []
+        data: [] as string[]
     },
     yAxis: {
         type: 'value'
     },
     series: [
         {
-            data: [],
+            data: [] as number[],
             type: 'line'
         }
     ]
 })
 const initChart = () => {
-    // 初始化图表实例
+    if (echart.value) {
+        // 初始化图表实例
     const chart = echarts.init(echart.value);
-    option.value
     // 设置图表选项
     chart.setOption(option.value);
 
     // 监听窗口大小变化，调整图表大小
-    window.addEventListener('resize', chart.resize);
+    const resizeHandler = () => chart.resize();
+    window.addEventListener('resize', resizeHandler);
+  }
 };
+
+interface ScoreData {
+  answerDate: string;
+  etScore: number;
+}
 
 const studentId = ref('')
 const studentName = ref('')
 // 在组件挂载时初始化图表
 onMounted(async () => {
-    studentId.value = route.query.studentId
-    studentName.value = route.query.studentName
+    studentId.value = route.query.studentId as string
+    studentName.value = route.query.studentName as string
     const res = await getStudentScoreService(studentId.value)
-    const resData = res.data.data
+    const resData:ScoreData[] = res.data.data
     const dates = resData.map(item => item.answerDate);
     const scores = resData.map(item => item.etScore);
 

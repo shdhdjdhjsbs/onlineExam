@@ -1,8 +1,24 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { updateExamListService, addExamListService } from '@/api/teacher';
-const dialogVisible = ref(false);
-const formModel = ref({
+import { ElMessage } from 'element-plus';
+const dialogVisible = ref<boolean>(false);
+interface FormModel {
+  source: string;
+  description: string;
+  institute: string;
+  major: string;
+  grade: string;
+  examDate: string;
+  totalTime: string;
+  totalScore: string;
+  type: string;
+  tips: string;
+  examCode?: number; // 可选字段
+  paperId: number;  
+  term?: string; 
+}
+const formModel = ref<FormModel>({
   source: '',
   description: '',
   institute: '',
@@ -13,15 +29,18 @@ const formModel = ref({
   totalScore: '',
   type: '',
   tips: '',
+  paperId: 0,  
+  term: '',  
 });
 //日期格式化
-const formatDate = (date) => {
+const formatDate = (date: Date | string): string => {
+  if (typeof date === 'string') date = new Date(date);
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 };
-const open = async (row) => {
+const open = async (row: FormModel) => {
   dialogVisible.value = true
   console.log(row)
   formModel.value = { ...row }

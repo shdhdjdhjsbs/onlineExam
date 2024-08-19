@@ -1,15 +1,15 @@
-<script setup>
-import router from '@/router';
+<script setup lang="ts">
 import { ref,onMounted } from 'vue'
-import { useUserStore } from '@/stores/index.js'
-import { useRoute } from 'vue-router';
+import { useUserStore } from '@/stores/index'
+import { useRoute, useRouter } from 'vue-router';
 const route = useRoute()
-const flag1 =ref(false)
+const router = useRouter()
+const flag1 =ref<boolean>(false)
 const changeflag1 = () => {
   if (route.path.startsWith('/teacher')) return flag1.value = false
   else return flag1.value = true
 }
-const flag = ref(false)
+const flag = ref<boolean>(false)
 const userStore = useUserStore();
 const reset = () => {
   userStore.resetUser()

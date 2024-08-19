@@ -1,21 +1,34 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref} from 'vue';
 import { deleteStudentInfoService, getPagingStudentService } from '@/api/teacher';
 import { Edit, Delete } from '@element-plus/icons-vue'
+import { ElMessageBox } from 'element-plus';
 const examNewData = ref([])
 const dialog = ref();
-
+interface Student {
+  studentId: number;
+  studentName: string;
+  sex: string;
+  institute: string;
+  major: string;
+  grade: string;
+  clazz: string;
+  tel: string;
+  cardId: string;
+  pwd: string;
+  email: string;
+}
 const params = ref({
   currentPage: 1,
   pageSize: 4,
   total: 1
 })
-const handleSizeChange = (e) => {
-  params.pageSize = e
+const handleSizeChange = (e:number) => {
+  params.value.pageSize = e
   onChangePage()
 }
-const handleCurrentChange = (e) => {
-  params.currentPage = e
+const handleCurrentChange = (e:number) => {
+  params.value.currentPage = e
   onChangePage()
 }
 const onChangePage = async () => {
@@ -30,11 +43,11 @@ const addExam = () => {
   dialog.value.open()
 }
 //编辑
-const onEditExam = (row) => {
+const onEditExam = (row:Student) => {
   dialog.value.open(row)
   console.log(row);
 }
-const onDelExam = async (row) => {
+const onDelExam = async (row:Student) => {
   await ElMessageBox.confirm('你确认删除该考试分类吗？', '温馨提示', {
     type: 'warning',
     confirmButtonText: '确认',

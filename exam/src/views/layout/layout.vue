@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import userAvatar from '@/components/userAvatar.vue';
 import { RouterView } from 'vue-router';
 </script>

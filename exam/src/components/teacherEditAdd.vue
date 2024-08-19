@@ -1,8 +1,27 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { updateTeacherInfoService, addTeacherInfoService } from '@/api/teacher';
+import { ElMessage } from 'element-plus';
+
 const dialogVisible = ref(false);
-const formModel = ref({
+interface TeacherFormModel {
+  teacherId: number;
+  teacherName: string;
+  grade: string;
+  major: string;
+  clazz: string;
+  institute: string;
+  tel: string;
+  email: string;
+  pwd: string;
+  cardId: string;
+  sex: string;
+  role: number;
+  examCode?: string,
+  type: string
+}
+const formModel = ref<TeacherFormModel>({
+    teacherId: 0,
     teacherName: '',
         grade: '',
         major: '',
@@ -13,9 +32,10 @@ const formModel = ref({
         pwd: '',
         cardId: '',
         sex: '',
-        role: 2
+        role: 2,
+        type: ''
 });
-const open = async (row) => {
+const open = async (row:TeacherFormModel) => {
     dialogVisible.value = true
     console.log(row)
     formModel.value = { ...row }

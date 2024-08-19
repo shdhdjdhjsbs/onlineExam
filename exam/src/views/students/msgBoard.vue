@@ -1,28 +1,35 @@
-<script setup>
+<script setup lang="ts">
 import { getPageMsgService, subMsgService, subCommentService } from '@/api/students';
 import { ElMessage } from 'element-plus';
 import { onMounted, ref } from 'vue'
-const input = ref('')
-const textarea = ref('')
-const dialogVisible = ref(false)
-const comment = ref('')
-const messageId = ref('')
+const input = ref<string>('')
+const textarea = ref<string>('')
+const dialogVisible = ref<boolean>(false)
+const comment = ref<string>('')
+const messageId = ref<string>('')
 const params = ref({
     currentPage: 1,
     pageSize: 2,
     total: 1
 })
+type MsgRecord = {
+    title: string;
+    content: string;
+    time: string;
+    id: string;
+    replays: { replay: string }[];
+}
 //分页留言数据
-const pageMsgData = ref([])
+const pageMsgData = ref<MsgRecord[]>([])
 onMounted(async () => {
     await onChangePage()
 })
-const handleSizeChange = (e) => {
-    params.pageSize = e
+const handleSizeChange = (e:number) => {
+    params.value.pageSize = e
     onChangePage()
 }
-const handleCurrentChange = (e) => {
-    params.currentPage = e
+const handleCurrentChange = (e:number) => {
+    params.value.currentPage = e
     onChangePage()
 }
 
@@ -70,7 +77,7 @@ const onChangePage = async () => {
     console.log(pageMsgData.value);
 }
 // 打开对话框和储存消息的id
-const OpendialogVisible= (e) => {
+const OpendialogVisible= (e:string) => {
     dialogVisible.value = !dialogVisible.value
     messageId.value = e
 }

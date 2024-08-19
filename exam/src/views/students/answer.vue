@@ -1,35 +1,36 @@
-<script setup>
+<script setup lang="ts">
 import { useRoute } from 'vue-router';
-import { onMounted, ref, computed, watch } from 'vue';
+import { onMounted, ref, computed, watch,onBeforeUnmount } from 'vue';
 import { getSubjectService, getQuestionsService, subExamScoreService } from '@/api/students';
-import { ElMessage } from 'element-plus';
-import { useUserStore } from '@/stores/index.js';
+import { ElMessage, ElMessageBox } from 'element-plus';
+import { useUserStore } from '@/stores/index';
 import router from '@/router';
+import type { Ref } from 'vue';
 
 const userStore = useUserStore();
 const route = useRoute();
-const subjectCode = route.query.subjectCode;
-const paperId = route.query.paperId
-const radio = ref(0)
+const subjectCode = route.query.subjectCode as string 
+const paperId = route.query.paperId as string 
+const radio = ref<number>(0)
 
-const matches = ref([])
-const flag = ref(true)
-const subjetData = ref({}); // 确保 subjetData 初始为一个对象
+const matches:Ref<string[]> = ref([])
+const flag = ref<boolean>(true)
+const subjetData = ref<{ data?: { data?: any } } | null>(null);
 // 使用 computed 解构出最内层的 data
 const Subjectdata = computed(() => subjetData.value?.data?.data || []);
 // 当前做的题
 const currentQuestionIndex = ref(0)
 // 选择题
-const selectQue = ref([])
+const selectQue = ref<any[]>([])
 //填空题
-const fillQue = ref([])
+const fillQue = ref<any[]>([])
 //判断题
-const judgeQue = ref([])
+const judgeQue = ref<any[]>([])
 //考试题库数据
-const questionsData = ref({});
+const questionsData = ref<{ [key: number]: any[] }>({});
 // 存储作答记录的对象
-const answers = ref({});
-const fillAnswer = ref([]); // 初始化为空数组
+const answers = ref<{ [key: number]: number | undefined }>({});
+const fillAnswer = ref<string[][]>([]); // 初始化为空数组
 
 let timer = setInterval(() => {
     Subjectdata.value.totalTime = Subjectdata.value.totalTime - 1
@@ -49,7 +50,7 @@ let timer = setInterval(() => {
 }, 60 * 1000)
 
 //选择判断题单选更新
-const updateAnswer = (index, selectedOption) => {
+const updateAnswer = (index: number, selectedOption: number) => {
     // const currentQuestion = selectQue.value[index];
     // console.log(currentQuestion);
     answers.value[index] = selectedOption;
@@ -91,11 +92,15 @@ const updateFillAnswer = () => {
     }
 };
 //判断有几个填空题来进行渲染
-function countBlanks(questionText) {
-    const regex = /\(\)/g; // 匹配 () 的正则表达式
-    matches.value = questionText.match(regex);
-    console.log(matches.value);
-    return matches ? matches.length : 0;
+function countBlanks(questionText: string): number {
+  const regex = /\(\)/g; // 匹配 () 的正则表达式
+  const result = questionText.match(regex); // 可能是 RegExpMatchArray 或 null
+  
+  // 如果 result 为 null，则 matches.value 设为空数组
+  matches.value = result ? result : [];
+  
+  console.log(matches.value);
+  return matches.value.length; // 确保 matches.value 为 string[] 类型
 }
 // 使用 watch 监听 currentQuestionIndex 的变化
 watch(currentQuestionIndex, (newIndex) => {
@@ -114,10 +119,10 @@ watch(fillAnswer, () => {
         // 判断是否所有输入框都有值
         if (fillAnswer.value[currentIndex].every(answer => answer !== undefined && answer !== '')) {
             // 标记为已答
-            fillAnswer.value[currentIndex].answered = true;
+            (fillAnswer.value[currentIndex] as any).answered = true;
         } else {
             // 取消已答标记
-            fillAnswer.value[currentIndex].answered = false;
+            (fillAnswer.value[currentIndex] as any).answered = false;
         }
     }
 }, { deep: true });
@@ -127,7 +132,7 @@ const totalScore = () => {
     // 计算选择题的成绩
     let totalScore = 0;
     selectQue.value.forEach((question, index) => {
-        const selectedOption = answers.value[index]; //获取用户选择的选项1,2,3,4
+        const selectedOption = answers.value[index] as number //获取用户选择的选项1,2,3,4
         const correctAnswer = question.rightAnswer;  //获取题目的正确答案。
         if (selectedOption && correctAnswer) {  //检查用户选择和正确答案是否存在
             if (['A', 'B', 'C', 'D'][selectedOption - 1] === correctAnswer) {
@@ -137,22 +142,17 @@ const totalScore = () => {
     });
     // // // 计算填空题的成绩
     fillQue.value.forEach((question, index) => {
-        const userAnswers = fillAnswer.value[index];  //获取用户的填空答案
-        const correctAnswer = question.answer.split(' '); //将正确答案按空格分隔成数组
+        const userAnswers = fillAnswer.value[index] || [];  // 获取用户的填空答案
+        const correctAnswer = question.answer.split(' ').map((a: string) => a.replace(/\s+/g, '')); // 将正确答案按空格分隔成数组并去掉空格
         let isCorrect = true;
-        // 检查 userAnswers 是否为 undefined,若为undefined可能导致直接判断正确得分
-        if (userAnswers === undefined) {
+        if (userAnswers.length !== correctAnswer.length) {
             isCorrect = false;
         } else {
-            // 遍历所有填空项，判断是否全部正确
-            if (Array.isArray(correctAnswer) && Array.isArray(userAnswers)) { //检查正确答案和用户答案是否都是数组。
-                correctAnswer.forEach((answer, idx) => {
-                    console.log(`Checking answer ${idx}:`, { userAnswer: userAnswers[idx], correctAnswer: answer });
-                    if (userAnswers[idx] !== undefined && userAnswers[idx] !== answer) {
-                        isCorrect = false;
-                    }
-                });
-            }
+            userAnswers.forEach((answer, idx) => {
+                if (answer.trim().replace(/\s+/g, '') !== correctAnswer[idx]) {
+                    isCorrect = false;
+                }
+            });
         }
         if (isCorrect) {
             totalScore += parseInt(question.score, 10);
@@ -203,6 +203,7 @@ const subExamSevice = async () => {
             endTime: getCurrentAllDate(),
             subjectCode
         }})
+        return ElMessage.success(res.data.message)
         }
          ElMessage.error(res.data.message)
 }
@@ -211,7 +212,7 @@ const startTime =ref('')
 const subExam = () => {
     ElMessageBox.confirm(
         '您确定要提交试卷吗?',
-        'Warning',
+        '温馨提示',
         {
             confirmButtonText: '确定交卷',
             cancelButtonText: '再检查一下',
@@ -234,6 +235,9 @@ onMounted(async () => {
     countBlanks(fillQue.value[0].question)
     console.log(Subjectdata.value, selectQue.value, userStore.studentId, fillQue.value, judgeQue.value);
 });
+onBeforeUnmount(() => {
+    clearInterval(timer)
+})
 </script>
 <template>
     <div class="ansBox center">
@@ -268,7 +272,7 @@ onMounted(async () => {
                         <div class="questions">
                             <div class="signShape center"
                                 @click="currentQuestionIndex = questionsData[1]?.length + index"
-                                :class="{ 'signShape1': currentQuestionIndex === questionsData[1]?.length + index, 'signShape2': fillAnswer[index]?.answered }"
+                                :class="{ 'signShape1': currentQuestionIndex === questionsData[1]?.length + index, 'signShape2': (fillAnswer[index] as any)?.answered }"
                                 v-for="(item, index) in questionsData[2]" key="item">{{ index + 1 }}</div>
                         </div>
                         <div class="questionsTitle">判断题</div>

@@ -1,8 +1,26 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { updateStudentInfoService, addStudentInfoService } from '@/api/teacher';
+import { ElMessage } from 'element-plus';
+
 const dialogVisible = ref(false);
-const formModel = ref({
+interface StudentFormModel {
+  studentId: number;
+  studentName: string;
+  grade: string;
+  major: string;
+  clazz: string;
+  institute: string;
+  tel: string;
+  email: string;
+  pwd: string;
+  cardId: string;
+  sex: string;
+  role: number;
+  examCode?: number;
+}
+const formModel = ref<StudentFormModel>({
+    studentId: 0,
     studentName: '',
     grade: '',
     major: '',
@@ -13,9 +31,9 @@ const formModel = ref({
     pwd: '',
     cardId: '',
     sex: '',
-    role: 2
+    role: 2,
 });
-const open = async (row) => {
+const open = async (row: StudentFormModel) => {
     dialogVisible.value = true
     console.log(row)
     formModel.value = { ...row }
@@ -30,7 +48,7 @@ defineExpose({
 const emit = defineEmits(['success']);
 
 const submit = async () => {
-    if (formModel.value.studentId) {
+    if (formModel.value.studentId !== undefined) {
         // 编辑试卷
        await updateStudentInfoService(formModel.value)
         ElMessage.success('编辑成功')

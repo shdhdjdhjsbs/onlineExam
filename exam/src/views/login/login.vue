@@ -1,14 +1,23 @@
-<script setup>
-import { ref } from 'vue';
+<script setup lang="ts">
+import { ref} from 'vue';
 import router from '@/router';
 import { userLogin } from '@/api/user';
-import { useUserStore } from '@/stores/index.js'
-const formModel = ref({
+import { useUserStore } from '@/stores/index'
+import type { FormInstance } from 'element-plus';
+import type { Ref } from 'vue';
+import { ElMessage } from 'element-plus';
+// 定义表单模型
+interface FormModel {
+    username: string;
+    password: string;
+}
+
+const formModel: Ref<FormModel> = ref({
     username: '',
     password: ''
 });
 
-const form = ref()
+const form = ref<FormInstance | null>(null)
 
 const rules = ref({
     username: [
@@ -24,27 +33,31 @@ const rules = ref({
 const userStore = useUserStore();
 
 const login = async () => {
+    // 确保 form.value 不为 null
+    if (!form.value) return;
     await form.value.validate()
     const res = await userLogin(formModel.value)
     console.log(res.data);
     if (res.data.code === 200) {
         userStore.setUser(res.data.data);
-        ElMessage.success('登陆成功')
+        ElMessage.success('登陆成功');
         console.log(res.data.data.role);
         if (res.data.data.role == 1) {
             router.push('/teacher/examQuery')
         }
-        else if(res.data.data.role == 2) {
+        else if (res.data.data.role == 2) {
             router.push('/students')
         }
     } else {
-        ElMessage.success('登陆失败，请检查账号或密码')
+        ElMessage.error('登陆失败，请检查账号或密码');
     }
 }
 </script>
 <template>
     <div class="container center">
-        <div class="title center" style="color: rgb(64, 158, 255);"><el-icon size="40px"><Reading /></el-icon>在线考试系统</div>
+        <div class="title center" style="color: rgb(64, 158, 255);"><el-icon size="40px">
+                <Reading />
+            </el-icon>在线考试系统</div>
         <el-row class="box center">
             <el-col :lg="8" :xs="16" :md="10" :span="10">
                 <div class="title center">账号登陆</div>
@@ -63,7 +76,7 @@ const login = async () => {
                 </div>
                 <div class="btn center" @click="login">登陆</div>
             </el-col>
-        </el-row> 
+        </el-row>
         <div class="tip center">
             <div>Tips：</div>
             <!-- <div>管理员账号：9527</div> -->
@@ -90,7 +103,8 @@ body {
 .container {
     height: 100vh;
     flex-direction: column;
-    background-color: rgb(238,238,238);;
+    background-color: rgb(238, 238, 238);
+    ;
     overflow: hidden;
 }
 
@@ -133,7 +147,8 @@ body {
     flex-wrap: wrap;
     background-color: white;
 }
-.tip div{
+
+.tip div {
     display: flex;
     justify-content: center;
     align-items: center;
